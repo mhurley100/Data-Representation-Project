@@ -1,0 +1,229 @@
+<html>
+    <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <div id="create-update" style="display:none">
+            <h2>create-edit</h2>
+            <table id="createUpdateForm">
+                <tr>
+                    <td>id</td>
+                    <td><input type="text" name="id" id="idInput"></td>
+                </tr>
+                <tr>
+                    <td>symbol</td>
+                    <td><input type="text" name="symbol"></td>
+                </tr>
+                <tr>
+                    <td>name</td>
+                    <td><input type="text" name="name"></td>
+                </tr>
+                <tr>    
+                    <td>price</td>
+                    <td><input type="currency" name="price"></td>
+                </tr>
+                <tr>
+                    <td></td><td>
+                        <button id="create-button" onclick="doCreate()">Create</button>     
+                        <button id="update-button" onclick="doUpdate()">update</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="display">
+            <h2>Shares</h2>
+            <button onClick="showCreate()">Create</button>
+            <table id="shareTable" class="table">
+                <tr>
+                    <th>id</th><th>symbol</th><th>name</th><th>price</th><th></th><th></th>
+                </tr>
+                
+            </table>
+
+        </div>
+
+        <script>
+            function showCreate(){
+                document.getElementById('display').style.display = "none"
+                document.getElementById('update-button').style.display = "none"
+                document.getElementById('create-button').style.display = "block"
+                document.getElementById('create-update').style.display = "block"
+
+            }
+            function showUpdate(thisElem){
+                var rowElement = thisElem.parentNode.parentNode;
+                share = readShareFromRow(rowElement)
+                populateForm(share)
+
+                document.getElementById('display').style.display = "none"
+                document.getElementById('update-button').style.display = "block"
+                document.getElementById('create-button').style.display = "none"
+                document.getElementById('create-update').style.display = "block"
+
+            }
+            function readShareFromRow(rowElement){
+                share = {}
+                share.id = rowElement.getAttribute("id");
+                share.symbol = rowElement.cells[1].firstChild.textContent
+                share.name = rowElement.cells[2].firstChild.textContent
+                share.price = rowElement.cells[3].firstChild.textContent
+
+                return share
+                
+            }
+            function populateForm(share){
+                var form = document.getElementById('createUpdateForm')
+
+                
+                form.querySelector('input[name="id"]').value = share.id
+                form.querySelector('input[name="id"]').disabled=true
+                
+                form.querySelector('input[name="symbol"]').value = share.symbol
+                form.querySelector('input[name="name"]').value = share.name
+                form.querySelector('input[name="price"]').value = share.price      
+            }
+            function clearForm() {
+                    var form = document.getElementById('createUpdateForm')
+
+
+                    form.querySelector('input[name="id"]').value = ''
+                    form.querySelector('input[name="id"]').disabled = false
+
+                    form.querySelector('input[name="symbol"]').value = ''
+                    form.querySelector('input[name="name"]').value = ''
+                    form.querySelector('input[name="price"]').value = ''
+                }
+
+            function doCreate(){
+                console.log("in doCreate")
+                share= getShareFromForm()
+                console.log(share)
+                $.ajax({
+                    url:"/shares",
+                    data:JSON.stringify(share),
+                    method:"POST",
+                    dataType:"JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success:function(result){
+                        console.log(result) 
+                        addShareToTable(share)
+                        showDisplay()
+                        clearForm()
+
+                    },
+                    error:function(xhr,status,error){
+                        console.log("error"+error)
+                    }
+                })
+               
+            }
+            function doUpdate(){
+                share = getShareFromForm()
+                updateServer(share)
+                
+            }
+            function updateServer(share){
+               $.ajax({
+                    url: "/shares/"+share.id,
+                    data: JSON.stringify(share),
+                    method: "PUT",
+                    dataType: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log(result)
+                        updateTableRow(share)
+                        showDisplay()
+                        clearForm()
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("error" + error)
+                    }
+                })
+            }
+            function doDelete(thisElem){
+                var tableElement = document.getElementById('shareTable');
+                var rowElement = thisElem.parentNode.parentNode;
+                var index = rowElement.rowIndex;
+                id = rowElement.getAttribute("id");
+                $.ajax({
+                    url:"/shares/"+id,
+                    method:"DELETE",
+                    dateType:"JSON",
+                    success:function(result){
+                        tableElement.deleteRow(index);
+                    },
+                    error:function(xhr,status,error){
+                        console.log(error)
+                    }
+                })
+                
+            }
+            function updateTableRow(share){
+                rowElement = document.getElementById(share.id)
+                rowElement.cells[1].firstChild.textContent = share.symbol
+                rowElement.cells[2].firstChild.textContent = share.name
+                rowElement.cells[3].firstChild.textContent = share.price
+                //console.log("updating table")
+            }
+            function getShareFromForm(){
+                var form = document.getElementById('createUpdateForm')
+
+                var share = {}
+                share.id = form.querySelector('input[name="id"]').value
+                share.symbol = form.querySelector('input[name="symbol"]').value
+                share.name = form.querySelector('input[name="name"]').value
+                share.price = form.querySelector('input[name="price"]').value
+                //console.log(share)
+                 return share
+            }
+             function showDisplay() {
+                    document.getElementById('display').style.display = "block"
+                    document.getElementById('create-update').style.display = "none"
+
+                }
+
+            function populateTable(){
+                //ajax getAll
+               $.ajax({
+                   url:'http://127.0.0.1:5000/shares',
+                   method:'GET',
+                   datatype:'JSON',
+                   success:function(results){
+                        for (share of results){
+                             addShareToTable(share)
+                        }
+                   },
+                   error:function (xhr,status,error){
+                       console.log ("error "+error +" code:"+status)
+                   }
+
+               })
+               
+            }
+            function addShareToTable(share){
+                //console.log("working so far")
+                tableElem = document.getElementById("shareTable")
+                rowElem = tableElem.insertRow(-1)
+                rowElem.setAttribute("id", share.id)
+                cell1 = rowElem.insertCell(0)
+                cell1.innerHTML = share.id
+                cell2 = rowElem.insertCell(1)
+                cell2.innerHTML = share.symbol
+                cell3 = rowElem.insertCell(2)
+                cell3.innerHTML = share.name
+                cell4 = rowElem.insertCell(3)
+                cell4.innerHTML = share.price
+                cell5 = rowElem.insertCell(4)
+                cell5.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+                cell6 = rowElem.insertCell(5)
+                cell6.innerHTML = '<button onclick="doDelete(this)">delete</button>'
+                 }
+            populateTable()
+        </script>
+    </body>
+</html>
