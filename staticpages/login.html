@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    
+	<style>
+	body 
+	{
+		margin: 0;
+		padding: 0;
+		background-color:paleturquoise;
+		height: 100vh;
+	}
+	/* Style the input fields  */
+	input 
+	{
+		width: 100%;
+		padding: 12px;
+		border: 1px solid #ccc;
+		border-radius: 40px;
+		box-sizing: border-box;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	/* Style the login button */
+	input[type=submit] 
+	{
+		background-color: teal;
+		color: white;
+		padding: 12px 20px;
+		border: none;
+		cursor: pointer;
+	}
+	/* Style the container for inputs */
+	.container 
+	{
+		width:35%; /*Define the width of the control*/
+		margin:auto; /*This Provide the horizontal centering of the control*/
+		padding:100px 20px 20px 20px; /*Add some padding, the first number is the top and provides room for the image*/
+		background-color: #F0F0F0; /*Base Background image*/
+		background-color: #f1f1f1;
+		padding: 40px;
+		top : 200px;		
+	}
+	h3
+        {
+            color: darkblue;            
+            text-align: center;
+            padding: 20;
+        }
+
+	</style>
+
+	<body>
+		<!-- Create a div for container -->
+	<div class="container">
+		<h3 class="text-center">Shares Database Login</h3>
+		<!-- Create required input for email with type email -->
+		<h3>Customer Login:</h3>
+		<label for="email">Email</label>
+		<!-- Ensure email pattern is in valid format (source:  https://stackoverflow.com/questions/29286682/html-email-validation-after-the) -->
+		<input type="email" id="email" name="email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$" required >
+		<!-- Create required input for password with type password-->
+		<label for="psw">Password</label>
+		<input type="password" id="psw" name="psw" required>
+		<!-- Create button type submit with type submit-->    
+		<div >
+			<button type="button" class="btn btn-info btn-md" onclick="login()">Login</button> 
+		</div>
+		</form>
+	</div>
+	
+	<script>
+	host=window.location.origin
+		
+		function login()
+		{
+		window.location.href = 'http://127.0.0.1:5000/index.html'
+						
+		}
+	</script>
+
+</html>

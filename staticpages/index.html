@@ -6,47 +6,105 @@
                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     </head>
+    <style>
+        body 
+        {
+            margin: 20;
+            padding: 20;
+            background-color: lightgray;
+            border: 5px outset darkblue;
+        }
+        table 
+        {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th 
+        {
+            border: 1px solid #21235f;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) 
+        {
+            background-color: #dddddd;
+            color: darkblue;   
+        }
+
+        h1
+        {
+            color: darkblue;            
+            text-align: center;
+            padding: 20;
+        }
+        .button {
+            background-color: rgb(60, 78, 216);
+            border: none;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            }            
+    </style>  
+
     <body>
         <div id="create-update" style="display:none">
-            <h2>create-edit</h2>
+            <h2>Create-Edit</h2>
             <table id="createUpdateForm">
                 <tr>
-                    <td>id</td>
+                    <td>ID</td>
                     <td><input type="text" name="id" id="idInput"></td>
                 </tr>
                 <tr>
-                    <td>symbol</td>
+                    <td>Symbol</td>
                     <td><input type="text" name="symbol"></td>
                 </tr>
                 <tr>
-                    <td>name</td>
+                    <td>Name</td>
                     <td><input type="text" name="name"></td>
                 </tr>
                 <tr>    
-                    <td>price</td>
+                    <td>Price</td>
                     <td><input type="currency" name="price"></td>
                 </tr>
                 <tr>
                     <td></td><td>
                         <button id="create-button" onclick="doCreate()">Create</button>     
-                        <button id="update-button" onclick="doUpdate()">update</button>
+                        <button id="update-button" onclick="doUpdate()">Update</button>
                     </td>
                 </tr>
             </table>
         </div>
         <div id="display">
-            <h2>Shares</h2>
-            <button onClick="showCreate()">Create</button>
+            <img src="sea.jpg" alt="Sea" width="1800" height="80">
+            <h1>Latest Share Prices</h1>            
+            <button onClick="showCreate()" class="button" >Create</button>
             <table id="shareTable" class="table">
                 <tr>
-                    <th>id</th><th>symbol</th><th>name</th><th>price</th><th></th><th></th>
+                    <th>ID</th><th>Symbol</th><th>Name</th><th>Price</th><th>Update</th><th>Delete</th>
                 </tr>
                 
             </table>
 
         </div>
 
+        <footer>
+            <section class="contact" >
+                <h4>Contact Details</h4>
+                <address property="email">
+                    <a href="mailto:share.com">latest@shares.com</a>               
+            </section>
+        </footer>
+        
         <script>
+        
         host=window.location.origin
 
             function showCreate(){
@@ -221,9 +279,9 @@
                 cell4 = rowElem.insertCell(3)
                 cell4.innerHTML = share.price
                 cell5 = rowElem.insertCell(4)
-                cell5.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+                cell5.innerHTML = '<button onclick="showUpdate(this)" class="button" >Update</button>'
                 cell6 = rowElem.insertCell(5)
-                cell6.innerHTML = '<button onclick="doDelete(this)">delete</button>'
+                cell6.innerHTML = '<button onclick="doDelete(this)" class="button" >Delete</button>'
                  }
             populateTable()
         </script>
