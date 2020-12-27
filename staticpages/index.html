@@ -47,6 +47,8 @@
         </div>
 
         <script>
+        host=window.location.origin
+
             function showCreate(){
                 document.getElementById('display').style.display = "none"
                 document.getElementById('update-button').style.display = "none"
@@ -190,7 +192,7 @@
             function populateTable(){
                 //ajax getAll
                $.ajax({
-                   url:'http://127.0.0.1:5000/shares',
+                   url: host+'/shares',
                    method:'GET',
                    datatype:'JSON',
                    success:function(results){
