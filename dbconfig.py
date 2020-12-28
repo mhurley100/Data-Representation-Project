@@ -1,5 +1,5 @@
 mysql={
-    'host':"mhurley100",
+    'host':"sharesdaoherokuapp.com.",
     'user':'mhurley100',
     'password':'root',
     'database':'sharesdao'
