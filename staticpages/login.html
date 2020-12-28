@@ -37,14 +37,15 @@
 	/* Style the container for inputs */
 	.container 
 	{
-		width:35%; /*Define the width of the control*/
-		margin:auto; /*This Provide the horizontal centering of the control*/
-		padding:100px 20px 20px 20px; /*Add some padding, the first number is the top and provides room for the image*/
-		background-color: #F0F0F0; /*Base Background image*/
+		width:35%; 
+		margin:auto; 
+		padding:100px 20px 20px 20px; 
+		background-color: #F0F0F0; 
 		background-color: #f1f1f1;
 		padding: 40px;
 		top : 200px;		
 	}
+
 	h3
         {
             color: darkblue;            
@@ -57,30 +58,44 @@
 	<body>
 		<!-- Create a div for container -->
 	<div class="container">
-		<h3 class="text-center">Shares Database Login</h3>
+		<form>
+		<h3 class="text-center">Shares Database</h3>
 		<!-- Create required input for email with type email -->
 		<h3>Customer Login:</h3>
-		<label for="email">Email</label>
-		<!-- Ensure email pattern is in valid format (source:  https://stackoverflow.com/questions/29286682/html-email-validation-after-the) -->
-		<input type="email" id="email" name="email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$" required >
+		<label for="user">Username</label>
+		<input type="user" name="username" id="username" class="form-control" placeholder="Your Username *">
 		<!-- Create required input for password with type password-->
-		<label for="psw">Password</label>
-		<input type="password" id="psw" name="psw" required>
+		<label for="password">Password</label>
+		<input type="password" name="password" required placeholder="Your Password *">
 		<!-- Create button type submit with type submit-->    
 		<div >
-			<button type="button" class="btn btn-info btn-md" onclick="login()">Login</button> 
+			<button type="button" class="btn btn-info btn-md" onclick="display(form)">Login</button> 
 		</div>
 		</form>
 	</div>
 	
-	<script>
-	host=window.location.origin
-		
-		function login()
-		{
-		window.location.href = 'http://127.0.0.1:5000/index.html'
-						
-		}
+	</body>
+	<!-- Adapted from https://stackoverflow.com/questions/35100181/how-to-make-login-authentication-page-in-html-or-javascript-->
+	<script type="text/javascript">
+		function display(form)
+			{
+			if (form.username.value=="root") 
+			{ 
+			if (form.password.value=="root") 
+			{
+				window.location.href = 'http://127.0.0.1:5000/index.html'
+			}
+			else
+			{
+				alert("Invalid Password")
+			}} 
+			else 
+			{  
+				alert("Invalid Username")
+			}}
+		</script>			
+	
+
 	</script>
 
 </html>
