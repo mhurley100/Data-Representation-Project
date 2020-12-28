@@ -1,7 +1,7 @@
 mysql={
-    'host':"window.location.origin",
-    'user':'mhurley100',
+    'host':"localhost",
+    'user':'root',
     'password':'root',
-    'database':'sharesdao'
+    'database':'datarepresentation'
 
 }
