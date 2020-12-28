@@ -1,1 +1,1 @@
-web: python server.py: app
+web: gunicorn wsgi:app
